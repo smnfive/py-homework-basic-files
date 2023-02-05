@@ -1,0 +1,29 @@
+import os
+
+FILE_NAME = "recipes.txt"
+FILE_DIR = "py-homework-basic-files"
+FILE_DIR1 = "2.4.files"
+ROOT_PATH = os.getcwd()
+full_path = os.path.join(ROOT_PATH, FILE_DIR, FILE_DIR1, FILE_NAME)
+with open(full_path, encoding="UTF-8") as file_object:
+    cook_book = {}
+    for line in file_object:
+        a = cook_book[line.strip()] = []
+        quantity_of_ingredients = int(file_object.readline())
+        for j in range(quantity_of_ingredients):
+            ingredient = file_object.readline().strip()
+            ingredient_name, quantity, measure = ingredient.split(' | ')
+            a.append({
+                'ingredient_name': ingredient_name,
+                'quantity': quantity,
+                'measure' : measure
+            })
+        file_object.readline()
+def get_shop_list_by_dishes(dishes, person_count):
+    new_list = []
+    for dish in dishes:
+        new_list += cook_book[dish]
+    new_dict = {}
+    for dict_ in new_list:
+        new_dict[dict_.pop('ingredient_name')] = {'measure': dict_['measure'], 'quantity': int(dict_['quantity']) * person_count}
+    return new_dict
